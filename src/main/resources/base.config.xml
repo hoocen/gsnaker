@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+	<bean name="start" class="org.gsnaker.engine.parser.impl.StartParser"/>
+	<bean name="task" class="org.gsnaker.engine.parser.impl.TaskParser"/>
+	<bean name="custom" class="org.gsnaker.engine.parser.impl.CustomParser"/>
+	<bean name="decision" class="org.gsnaker.engine.parser.impl.DecisionParser"/>
+	<bean name="subprocess" class="org.gsnaker.engine.parser.impl.SubProcessParser"/>
+	<bean name="fork" class="org.gsnaker.engine.parser.impl.ForkParser"/>
+	<bean name="join" class="org.gsnaker.engine.parser.impl.JoinParser"/>
+	<bean name="end" class="org.gsnaker.engine.parser.impl.EndParser"/>
+</config>

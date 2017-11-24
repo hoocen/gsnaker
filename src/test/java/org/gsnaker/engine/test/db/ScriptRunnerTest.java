@@ -1,10 +1,11 @@
-package org.gsnaker.engine.access;
+package org.gsnaker.engine.test.db;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.junit.Assert;
+import org.gsnaker.engine.access.ScriptRunner;
 import org.gsnaker.engine.access.jdbc.JdbcHelper;
 import org.junit.Test;
 

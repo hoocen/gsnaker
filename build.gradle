@@ -7,7 +7,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'com.gsnaker'
 version = '0.5.4-SNAPSHOT'
-def artifactId = 'gsnaker-core'
+def artifactId = 'gsnaker'
 
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
@@ -25,9 +25,6 @@ repositories {
 	}
 	maven {
 		url 'http://maven.oschina.net/content/groups/public'
-	}
-	maven {
-		url 'http://10.5.210.101:8081/nexus/content/groups/public/'
 	}
 	mavenLocal()
 	mavenCentral()
@@ -70,27 +67,5 @@ task sourcesJar(type: Jar) {
 artifacts {
 	archives jar
 	archives sourcesJar
-}
-uploadArchives {
-	repositories{
-		mavenDeployer {
-			repository(url: "http://10.5.210.101:8081/nexus/content/repositories/releases/")
-			if (publishReleases) {
-                repository(url: "http://10.5.210.101:8081/nexus/content/repositories/releases/") {
-					authentication(userName: 'admin', password: 'admin123');
-				}
-            }
-
-            if (publishSnapshots) {
-                snapshotRepository(url: 'http://10.5.210.101:8081/nexus/content/repositories/snapshots/') {
-					authentication(userName: 'admin', password: 'admin123');
-				}
-            }
-			
-			pom.version = "$project.version"
-			pom.artifactId = "$artifactId"
-			pom.groupId = "$project.group"
-		}
-	}
 }
 

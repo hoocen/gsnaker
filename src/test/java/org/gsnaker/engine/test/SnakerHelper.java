@@ -1,4 +1,4 @@
-package test;
+package org.gsnaker.engine.test;
 
 import javax.sql.DataSource;
 

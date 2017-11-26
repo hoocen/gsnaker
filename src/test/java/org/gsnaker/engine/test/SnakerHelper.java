@@ -6,7 +6,7 @@ import org.gsnaker.engine.SnakerEngine;
 import org.gsnaker.engine.access.jdbc.JdbcHelper;
 import org.gsnaker.engine.cfg.Configuration;
 /**
- * Snaker
+ * Snaker引擎帮助类
  * @author hoocen
  * @since 1.0
  */

@@ -9,7 +9,9 @@ import java.util.Map;
 import org.gsnaker.engine.ITaskService;
 import org.gsnaker.engine.TaskAccessStrategy;
 import org.gsnaker.engine.entity.HistoryTask;
+import org.gsnaker.engine.entity.Order;
 import org.gsnaker.engine.entity.Task;
+import org.gsnaker.engine.entity.Process;
 import org.gsnaker.engine.model.CustomModel;
 import org.gsnaker.engine.model.NodeModel;
 import org.gsnaker.engine.model.ProcessModel;
@@ -29,25 +31,35 @@ import org.gsnaker.engine.model.TaskModel.PerformType;
 import org.gsnaker.engine.SnakerEngine;
 import org.gsnaker.engine.core.ServiceContext;
 import org.gsnaker.engine.impl.GeneralAccessStrategy;
-
-public class TaskService extends AccessService implements ITaskService{
-
+/**
+ * 任务服务
+ * @author hoocen
+ * @since 1.0
+ */
+public class TaskService extends AccessService implements ITaskService {
 	private static final String START = "start";
 
 	//访问策略接口
 	private TaskAccessStrategy strategy = null;
-
-	@Override
+	/**
+	 * 完成指定任务
+	 */
 	public Task complete(String taskId) {
 		return complete(taskId, null, null);
 	}
 
-	@Override
+	/**
+	 * 完成指定任务
+	 */
 	public Task complete(String taskId, String operator) {
 		return complete(taskId, operator, null);
 	}
-
-	@Override
+	
+	/**
+	 * 完成指定任务
+	 * 该方法仅仅结束活动任务，并不能驱动流程继续执行
+	 * @see SnakerEngineImpl#executeTask(String, String, java.util.Map)
+	 */
 	public Task complete(String taskId, String operator, Map<String, Object> args) {
 		Task task = access().getTask(taskId);
 		AssertHelper.notNull(task, "指定的任务[id=" + taskId + "]不存在");
@@ -76,12 +88,20 @@ public class TaskService extends AccessService implements ITaskService{
 		return task;
 	}
 
-	@Override
+	/**
+	 * 更新任务对象的finish_Time、operator、expire_Time、version、variable
+	 * @param task 任务对象
+	 */
 	public void updateTask(Task task) {
 		access().updateTask(task);
 	}
 
-	@Override
+	/**
+	 * 任务历史记录方法
+	 * @param execution 执行对象
+	 * @param model 自定义节点模型
+	 * @return 历史任务对象
+	 */
 	public HistoryTask history(Execution execution, CustomModel model) {
 		HistoryTask historyTask = new HistoryTask();
 		historyTask.setId(StringHelper.getPrimaryKey());
@@ -99,8 +119,10 @@ public class TaskService extends AccessService implements ITaskService{
 		access().saveHistory(historyTask);
 		return historyTask;
 	}
-
-	@Override
+	
+	/**
+	 * 提取指定任务，设置完成时间及操作人，状态不改变
+	 */
 	public Task take(String taskId, String operator) {
 		Task task = access().getTask(taskId);
 		AssertHelper.notNull(task, "指定的任务[id=" + taskId + "]不存在");
@@ -113,9 +135,11 @@ public class TaskService extends AccessService implements ITaskService{
 		return task;
 	}
 
-	@Override
-	public Task resume(String taskId, String operator) {
-		HistoryTask histTask = access().getHistTask(taskId);
+    /**
+     * 唤醒指定的历史任务
+     */
+    public Task resume(String taskId, String operator) {
+        HistoryTask histTask = access().getHistTask(taskId);
         AssertHelper.notNull(histTask, "指定的历史任务[id=" + taskId + "]不存在");
         boolean isAllowed = true;
         if(StringHelper.isNotEmpty(histTask.getOperator())) {
@@ -131,14 +155,19 @@ public class TaskService extends AccessService implements ITaskService{
         } else {
             throw new SnakerException("当前参与者[" + operator + "]不允许唤醒历史任务[taskId=" + taskId + "]");
         }
-	}
-
-	@Override
+    }
+	
+	/**
+	 * 向指定任务添加参与者
+	 */
 	public void addTaskActor(String taskId, String... actors) {
 		addTaskActor(taskId, null, actors);
 	}
-
-	@Override
+	
+	/**
+	 * 向指定任务添加参与者
+	 * 该方法根据performType类型判断是否需要创建新的活动任务
+	 */
 	public void addTaskActor(String taskId, Integer performType, String... actors) {
 		Task task = access().getTask(taskId);
 		AssertHelper.notNull(task, "指定的任务[id=" + taskId + "]不存在");
@@ -174,10 +203,11 @@ public class TaskService extends AccessService implements ITaskService{
 		default :
 			break;
 		}
-		
 	}
-
-	@Override
+	
+	/**
+	 * 向指定任务移除参与者
+	 */
 	public void removeTaskActor(String taskId, String... actors) {
 		Task task = access().getTask(taskId);
 		AssertHelper.notNull(task, "指定的任务[id=" + taskId + "]不存在");
@@ -209,8 +239,10 @@ public class TaskService extends AccessService implements ITaskService{
 			}
 		}
 	}
-
-	@Override
+	
+	/**
+	 * 撤回指定的任务
+	 */
 	public Task withdrawTask(String taskId, String operator) {
 		HistoryTask hist = access().getHistTask(taskId);
 		AssertHelper.notNull(hist, "指定的历史任务[id=" + taskId + "]不存在");
@@ -235,21 +267,22 @@ public class TaskService extends AccessService implements ITaskService{
 		assignTask(task.getId(), task.getOperator());
 		return task;
 	}
-
-	@Override
+	
+	/**
+	 * 驳回任务
+	 */
 	public Task rejectTask(ProcessModel model, Task currentTask) {
 		String parentTaskId = currentTask.getParentTaskId();
-		if(StringHelper.isEmpty(parentTaskId) || parentTaskId.equals(START)){
+		if(StringHelper.isEmpty(parentTaskId) || parentTaskId.equals(START)) {
 			throw new SnakerException("上一步任务ID为空，无法驳回至上一步处理");
 		}
-		
 		NodeModel current = model.getNode(currentTask.getTaskName());
 		HistoryTask history = access().getHistTask(parentTaskId);
 		NodeModel parent = model.getNode(history.getTaskName());
-		if(!NodeModel.canRejected(current, parent)){
+		if(!NodeModel.canRejected(current, parent)) {
 			throw new SnakerException("无法驳回至上一步处理，请确认上一步骤并非fork、join、suprocess以及会签任务");
 		}
-		
+
 		Task task = history.undoTask();
 		task.setId(StringHelper.getPrimaryKey());
 		task.setCreateTime(DateHelper.getTime());
@@ -259,29 +292,69 @@ public class TaskService extends AccessService implements ITaskService{
 		return task;
 	}
 
-	@Override
-	public boolean isAllowed(Task task, String operator) {
-		if(StringHelper.isNotEmpty(operator)) {
-			if(SnakerEngine.ADMIN.equalsIgnoreCase(operator)
-					|| SnakerEngine.AUTO.equalsIgnoreCase(operator)) {
-				return true;
-			}
-			if(StringHelper.isNotEmpty(task.getOperator())) {
-				return operator.equals(task.getOperator());
-			}
+	/**
+	 * 对指定的任务分配参与者。参与者可以为用户、部门、角色
+	 * @param taskId 任务id
+	 * @param actorIds 参与者id集合
+	 */
+	private void assignTask(String taskId, String... actorIds) {
+		if(actorIds == null || actorIds.length == 0) return;
+		for(String actorId : actorIds) {
+			//修复当actorId为null的bug
+			if(StringHelper.isEmpty(actorId)) continue;
+			TaskActor taskActor = new TaskActor();
+			taskActor.setTaskId(taskId);
+			taskActor.setActorId(actorId);
+			access().saveTaskActor(taskActor);
 		}
-		List<TaskActor> actors = access().getTaskActorsByTaskId(task.getId());
-		if(actors == null || actors.isEmpty()) return true;
-		return !StringHelper.isEmpty(operator)
-				&& getStrategy().isAllowed(operator, actors);
+	}
+	
+	/**
+	 * 根据已有任务、任务类型、参与者创建新的任务
+	 * 适用于转派，动态协办处理
+	 */
+	public List<Task> createNewTask(String taskId, int taskType, String... actors) {
+		Task task = access().getTask(taskId);
+		AssertHelper.notNull(task, "指定的任务[id=" + taskId + "]不存在");
+		List<Task> tasks = new ArrayList<Task>();
+		try {
+			Task newTask = (Task)task.clone();
+			newTask.setTaskType(taskType);
+			newTask.setCreateTime(DateHelper.getTime());
+			newTask.setParentTaskId(taskId);
+			tasks.add(saveTask(newTask, actors));
+		} catch (CloneNotSupportedException e) {
+			throw new SnakerException("任务对象不支持复制", e.getCause());
+		}
+		return tasks;
 	}
 
-	@Override
-	/**
+    /**
+     * 获取任务模型
+     * @param taskId 任务id
+     * @return TaskModel
+     */
+    public TaskModel getTaskModel(String taskId) {
+        Task task = access().getTask(taskId);
+        AssertHelper.notNull(task);
+        Order order = access().getOrder(task.getOrderId());
+        AssertHelper.notNull(order);
+        Process process = ServiceContext.getEngine().process().getProcessById(order.getProcessId());
+        ProcessModel model = process.getModel();
+        NodeModel nodeModel = model.getNode(task.getTaskName());
+        AssertHelper.notNull(nodeModel, "任务id无法找到节点模型.");
+        if(nodeModel instanceof TaskModel) {
+            return (TaskModel)nodeModel;
+        } else {
+            throw new IllegalArgumentException("任务id找到的节点模型不匹配");
+        }
+    }
+
+    /**
 	 * 由DBAccess实现类创建task，并根据model类型决定是否分配参与者
 	 * @param taskModel 模型
 	 * @param execution 执行对象
-	 * @return List 任务列表
+	 * @return List<Task> 任务列表
 	 */
 	public List<Task> createTask(TaskModel taskModel, Execution execution) {
 		List<Task> tasks = new ArrayList<Task>();
@@ -322,85 +395,6 @@ public class TaskService extends AccessService implements ITaskService{
 		}
 		return tasks;
 	}
-	/**
-	 * 根据Task模型的assignee、assignmentHandler属性以及运行时数据，确定参与者
-	 * @param model 模型
-	 * @param execution 执行对象
-	 * @return 参与者数组
-	 */
-	private String[] getTaskActors(TaskModel model, Execution execution) {
-		Object assigneeObject = null;
-        AssignmentHandler handler = model.getAssignmentHandlerObject();
-		if(StringHelper.isNotEmpty(model.getAssignee())) {
-			assigneeObject = execution.getArgs().get(model.getAssignee());
-		} else if(handler != null) {
-            if(handler instanceof Assignment) {
-                assigneeObject = ((Assignment)handler).assign(model, execution);
-            } else {
-                assigneeObject = handler.assign(execution);
-            }
-		}
-		return getTaskActors(assigneeObject == null ? model.getAssignee() : assigneeObject);
-	}
-	/**
-	 * 根据taskmodel指定的assignee属性，从args中取值
-	 * 将取到的值处理为String[]类型。
-	 * @param actors 参与者对象
-	 * @return 参与者数组
-	 */
-	private String[] getTaskActors(Object actors) {
-		if(actors == null) return null;
-		String[] results;
-		if(actors instanceof String) {
-			//如果值为字符串类型，则使用逗号,分隔
-			return ((String)actors).split(",");
-        } else if(actors instanceof List){
-            //jackson会把stirng[]转成arraylist，此处增加arraylist的逻辑判断,by 红豆冰沙2014.11.21
-			List<?> list = (List)actors;
-			results = new String[list.size()];
-			for(int i = 0; i < list.size(); i++) {
-				results[i] = (String)list.get(i);
-			}
-            return results;
-		} else if(actors instanceof Long) {
-			//如果为Long类型，则返回1个元素的String[]
-			results = new String[1];
-			results[0] = String.valueOf((Long)actors);
-			return results;
-		} else if(actors instanceof Integer) {
-			//如果为Integer类型，则返回1个元素的String[]
-			results = new String[1];
-			results[0] = String.valueOf((Integer)actors);
-			return results;
-		} else if(actors instanceof String[]) {
-			//如果为String[]类型，则直接返回
-			return (String[])actors;
-		} else {
-			//其它类型，抛出不支持的类型异常
-			throw new SnakerException("任务参与者对象[" + actors + "]类型不支持."
-					+ "合法参数示例:Long,Integer,new String[]{},'10000,20000',List<String>");
-		}
-	}
-
-	/**
-	 * 根据已有任务、任务类型、参与者创建新的任务
-	 * 适用于转派，动态协办处理
-	 */
-	public List<Task> createNewTask(String taskId, int taskType, String... actors) {
-		Task task = access().getTask(taskId);
-		AssertHelper.notNull(task, "指定的任务[id=" + taskId + "]不存在");
-		List<Task> tasks = new ArrayList<Task>();
-		try {
-			Task newTask = (Task)task.clone();
-			newTask.setTaskType(taskType);
-			newTask.setCreateTime(DateHelper.getTime());
-			newTask.setParentTaskId(taskId);
-			tasks.add(saveTask(newTask, actors));
-		} catch (CloneNotSupportedException e) {
-			throw new SnakerException("任务对象不支持复制", e.getCause());
-		}
-		return tasks;
-	}
 	
 	/**
 	 * 根据模型、执行对象、任务类型构建基本的task对象
@@ -437,28 +431,86 @@ public class TaskService extends AccessService implements ITaskService{
 		return task;
 	}
 
-	@Override
-	public TaskModel getTaskModel(String taskId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	/**
-	 * 对指定的任务分配参与者。参与者可以为用户、部门、角色
-	 * @param taskId 任务id
-	 * @param actorIds 参与者id集合
+	 * 根据Task模型的assignee、assignmentHandler属性以及运行时数据，确定参与者
+	 * @param model 模型
+	 * @param execution 执行对象
+	 * @return 参与者数组
 	 */
-	private void assignTask(String taskId, String... actorIds) {
-		if(actorIds == null || actorIds.length == 0) return;
-		for(String actorId : actorIds) {
-			//修复当actorId为null的bug
-			if(StringHelper.isEmpty(actorId)) continue;
-			TaskActor taskActor = new TaskActor();
-			taskActor.setTaskId(taskId);
-			taskActor.setActorId(actorId);
-			access().saveTaskActor(taskActor);
+	private String[] getTaskActors(TaskModel model, Execution execution) {
+		Object assigneeObject = null;
+        AssignmentHandler handler = model.getAssignmentHandlerObject();
+		if(StringHelper.isNotEmpty(model.getAssignee())) {
+			assigneeObject = execution.getArgs().get(model.getAssignee());
+		} else if(handler != null) {
+            if(handler instanceof Assignment) {
+                assigneeObject = ((Assignment)handler).assign(model, execution);
+            } else {
+                assigneeObject = handler.assign(execution);
+            }
+		}
+		return getTaskActors(assigneeObject == null ? model.getAssignee() : assigneeObject);
+	}
+
+	/**
+	 * 根据taskmodel指定的assignee属性，从args中取值
+	 * 将取到的值处理为String[]类型。
+	 * @param actors 参与者对象
+	 * @return 参与者数组
+	 */
+	private String[] getTaskActors(Object actors) {
+		if(actors == null) return null;
+		String[] results;
+		if(actors instanceof String) {
+			//如果值为字符串类型，则使用逗号,分隔
+			return ((String)actors).split(",");
+        } else if(actors instanceof List){
+            //jackson会把stirng[]转成arraylist，此处增加arraylist的逻辑判断,by 红豆冰沙2014.11.21
+			List<?> list = (List<?>)actors;
+			results = new String[list.size()];
+			for(int i = 0; i < list.size(); i++) {
+				results[i] = (String)list.get(i);
+			}
+            return results;
+		} else if(actors instanceof Long) {
+			//如果为Long类型，则返回1个元素的String[]
+			results = new String[1];
+			results[0] = String.valueOf((Long)actors);
+			return results;
+		} else if(actors instanceof Integer) {
+			//如果为Integer类型，则返回1个元素的String[]
+			results = new String[1];
+			results[0] = String.valueOf((Integer)actors);
+			return results;
+		} else if(actors instanceof String[]) {
+			//如果为String[]类型，则直接返回
+			return (String[])actors;
+		} else {
+			//其它类型，抛出不支持的类型异常
+			throw new SnakerException("任务参与者对象[" + actors + "]类型不支持."
+					+ "合法参数示例:Long,Integer,new String[]{},'10000,20000',List<String>");
 		}
 	}
+
+	/**
+	 * 判断当前操作人operator是否允许执行taskId指定的任务
+	 */
+	public boolean isAllowed(Task task, String operator) {
+		if(StringHelper.isNotEmpty(operator)) {
+			if(SnakerEngine.ADMIN.equalsIgnoreCase(operator)
+					|| SnakerEngine.AUTO.equalsIgnoreCase(operator)) {
+				return true;
+			}
+			if(StringHelper.isNotEmpty(task.getOperator())) {
+				return operator.equals(task.getOperator());
+			}
+		}
+		List<TaskActor> actors = access().getTaskActorsByTaskId(task.getId());
+		if(actors == null || actors.isEmpty()) return true;
+		return !StringHelper.isEmpty(operator)
+				&& getStrategy().isAllowed(operator, actors);
+	}
+
 	public void setStrategy(TaskAccessStrategy strategy) {
 		this.strategy = strategy;
 	}

@@ -13,6 +13,7 @@ import org.gsnaker.engine.helper.StringHelper;
  * @author hoocen
  * @since 1.0
  */
+@SuppressWarnings("rawtypes")
 public class MemoryCacheManager implements CacheManager {
 
 	private final ConcurrentMap<String, Cache> caches;
@@ -20,6 +21,8 @@ public class MemoryCacheManager implements CacheManager {
 	public MemoryCacheManager() {
 		this.caches = new ConcurrentHashMap<String, Cache>();
 	}
+	
+	@SuppressWarnings("unchecked")
 	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
 		if(StringHelper.isEmpty(name)) {
 			throw new IllegalArgumentException("Cache名称不能为空.");

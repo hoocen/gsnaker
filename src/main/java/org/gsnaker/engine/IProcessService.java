@@ -51,14 +51,14 @@ public interface IProcessService {
 	/**
 	 * 根据给定的参数列表args查询process
 	 * @param filter 查询过滤器
-	 * @return List<Process> 流程定义对象集合
+	 * @return List 流程定义对象集合
 	 */
 	List<Process> getProcesss(QueryFilter filter);
 	/**
 	 * 根据给定的参数列表args分页查询process
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Process> 流程定义对象集合
+	 * @return List 流程定义对象集合
 	 */
 	List<Process> getProcesss(Page<Process> page, QueryFilter filter);
 	/**

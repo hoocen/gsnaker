@@ -186,7 +186,7 @@ public interface DBAccess {
 	 * 根据授权人、流程名称查询委托代理对象
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Surrogate> 委托代理对象集合
+	 * @return List 委托代理对象集合
 	 */
 	public List<Surrogate> getSurrogate(Page<Surrogate> page, QueryFilter filter);
 	
@@ -207,7 +207,7 @@ public interface DBAccess {
 	/**
 	 * 根据父任务id查询所有子任务
 	 * @param parentTaskId 父任务id
-	 * @return List<Task> 活动任务集合
+	 * @return List 活动任务集合
 	 */
 	public List<Task> getNextActiveTasks(String parentTaskId);
 	
@@ -216,21 +216,21 @@ public interface DBAccess {
 	 * @param orderId 流程实例id
 	 * @param taskName 任务名称
 	 * @param parentTaskId 父任务id
-	 * @return List<Task> 活动任务集合
+	 * @return List 活动任务集合
 	 */
 	public List<Task> getNextActiveTasks(String orderId, String taskName, String parentTaskId);
 	
 	/**
 	 * 根据任务id查询所有活动任务参与者集合
 	 * @param taskId 活动任务id
-	 * @return List<TaskActor> 活动任务参与者集合
+	 * @return List 活动任务参与者集合
 	 */
 	public List<TaskActor> getTaskActorsByTaskId(String taskId);
 	
 	/**
 	 * 根据任务id查询所有历史任务参与者集合
 	 * @param taskId 历史任务id
-	 * @return List<HistoryTaskActor> 历史任务参与者集合
+	 * @return List 历史任务参与者集合
 	 */
 	public List<HistoryTaskActor> getHistTaskActorsByTaskId(String taskId);
 	
@@ -274,7 +274,7 @@ public interface DBAccess {
 	 * 根据查询的参数，分页对象，返回分页后的查询结果
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Process> 流程定义集合
+	 * @return List 流程定义集合
 	 */
 	public List<Process> getProcesss(Page<Process> page, QueryFilter filter);
 	
@@ -282,7 +282,7 @@ public interface DBAccess {
 	 * 分页查询流程实例
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Order> 活动流程实例集合
+	 * @return List 活动流程实例集合
 	 */
 	public List<Order> getActiveOrders(Page<Order> page, QueryFilter filter);
 	
@@ -290,7 +290,7 @@ public interface DBAccess {
 	 * 分页查询活动任务列表
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Task> 活动任务集合
+	 * @return List 活动任务集合
 	 */
 	public List<Task> getActiveTasks(Page<Task> page, QueryFilter filter);
 	
@@ -298,7 +298,7 @@ public interface DBAccess {
 	 * 分页查询历史流程实例
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<HistoryOrder> 历史流程实例集合
+	 * @return List 历史流程实例集合
 	 */
 	public List<HistoryOrder> getHistoryOrders(Page<HistoryOrder> page, QueryFilter filter);
 	
@@ -306,7 +306,7 @@ public interface DBAccess {
 	 * 根据参与者分页查询已完成的历史任务
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<HistoryTask> 历史任务集合
+	 * @return List 历史任务集合
 	 */
 	public List<HistoryTask> getHistoryTasks(Page<HistoryTask> page, QueryFilter filter);
 	
@@ -314,7 +314,7 @@ public interface DBAccess {
 	 * 根据查询的参数，分页对象，返回分页后的活动工作项
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<WorkItem> 活动工作项
+	 * @return List 活动工作项
 	 */
 	public List<WorkItem> getWorkItems(Page<WorkItem> page, QueryFilter filter);
 	
@@ -322,7 +322,7 @@ public interface DBAccess {
 	 * 根据查询的参数，分页对象，返回分页后的抄送任务项
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<WorkItem> 活动工作项
+	 * @return List 活动工作项
 	 */
 	public List<HistoryOrder> getCCWorks(Page<HistoryOrder> page, QueryFilter filter);
 	
@@ -330,7 +330,7 @@ public interface DBAccess {
 	 * 根据流程定义ID、参与者分页查询已完成的历史任务项
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<WorkItem> 历史工作项
+	 * @return List 历史工作项
 	 */
 	public List<WorkItem> getHistoryWorkItems(Page<WorkItem> page, QueryFilter filter);
 	

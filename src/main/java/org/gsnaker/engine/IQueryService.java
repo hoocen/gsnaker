@@ -57,7 +57,7 @@ public interface IQueryService {
 	/**
 	 * 根据filter查询活动任务
 	 * @param filter 查询过滤器
-	 * @return List<Task> 活动任务集合
+	 * @return List 活动任务集合
 	 */
 	List<Task> getActiveTasks(QueryFilter filter);
 	
@@ -65,14 +65,14 @@ public interface IQueryService {
 	 * 根据filter分页查询活动任务
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Task> 活动任务集合
+	 * @return List 活动任务集合
 	 */
 	List<Task> getActiveTasks(Page<Task> page, QueryFilter filter);
 	
 	/**
 	 * 根据filter查询流程实例列表
 	 * @param filter 查询过滤器
-	 * @return List<Order> 活动实例集合
+	 * @return List 活动实例集合
 	 */
 	List<Order> getActiveOrders(QueryFilter filter);
 	
@@ -80,14 +80,14 @@ public interface IQueryService {
 	 * 根据filter分页查询流程实例列表
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Order> 活动实例集合
+	 * @return List 活动实例集合
 	 */
 	List<Order> getActiveOrders(Page<Order> page, QueryFilter filter);
 	
 	/**
 	 * 根据filter查询历史流程实例
 	 * @param filter 查询过滤器
-	 * @return List<HistoryOrder> 历史实例集合
+	 * @return List 历史实例集合
 	 */
 	List<HistoryOrder> getHistoryOrders(QueryFilter filter);
 	
@@ -95,14 +95,14 @@ public interface IQueryService {
 	 * 根据filter分页查询历史流程实例
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<HistoryOrder> 历史实例集合
+	 * @return List 历史实例集合
 	 */
 	List<HistoryOrder> getHistoryOrders(Page<HistoryOrder> page, QueryFilter filter);
 	
 	/**
 	 * 根据filter查询所有已完成的任务
 	 * @param filter 查询过滤器
-	 * @return List<HistoryTask> 历史任务集合
+	 * @return List 历史任务集合
 	 */
 	List<HistoryTask> getHistoryTasks(QueryFilter filter);
 	
@@ -110,7 +110,7 @@ public interface IQueryService {
 	 * 根据filter分页查询已完成的历史任务
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<HistoryTask> 历史任务集合
+	 * @return List 历史任务集合
 	 */
 	List<HistoryTask> getHistoryTasks(Page<HistoryTask> page, QueryFilter filter);
 	
@@ -118,7 +118,7 @@ public interface IQueryService {
 	 * 根据filter分页查询工作项（包含process、order、task三个实体的字段集合）
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<WorkItem> 活动工作项集合
+	 * @return List 活动工作项集合
 	 */
 	List<WorkItem> getWorkItems(Page<WorkItem> page, QueryFilter filter);
 	
@@ -126,7 +126,7 @@ public interface IQueryService {
 	 * 根据filter分页查询抄送工作项（包含process、order）
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<WorkItem> 抄送工作项集合
+	 * @return List 抄送工作项集合
 	 */
 	List<HistoryOrder> getCCWorks(Page<HistoryOrder> page, QueryFilter filter);
 	
@@ -134,7 +134,7 @@ public interface IQueryService {
 	 * 根据filter分页查询已完成的历史任务项
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<WorkItem> 历史工作项集合
+	 * @return List 历史工作项集合
 	 */
 	List<WorkItem> getHistoryWorkItems(Page<WorkItem> page, QueryFilter filter);
 	

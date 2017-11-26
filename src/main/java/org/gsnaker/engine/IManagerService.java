@@ -36,13 +36,13 @@ public interface IManagerService {
 	/**
 	 * 根据过滤条件查询委托代理对象
 	 * @param filter 查询过滤器
-	 * @return List<Surrogate> 委托代理对象集合
+	 * @return List 委托代理对象集合
 	 */
 	public List<Surrogate> getSurrogate(QueryFilter filter);
 	
 	/**
 	 * 根据授权人、流程名称获取最终代理人
-	 * 如存在user1->user2->user3，那么最终返回user3
+	 * 如存在user1-&#62;user2-&#62;user3，那么最终返回user3
 	 * @param operator 授权人
 	 * @param processName 流程名称
 	 * @return String 代理人
@@ -53,7 +53,7 @@ public interface IManagerService {
 	 * 根据过滤条件查询委托代理对象
 	 * @param page 分页对象
 	 * @param filter 查询过滤器
-	 * @return List<Surrogate> 委托代理对象集合
+	 * @return List 委托代理对象集合
 	 */
 	public List<Surrogate> getSurrogate(Page<Surrogate> page, QueryFilter filter);
 }

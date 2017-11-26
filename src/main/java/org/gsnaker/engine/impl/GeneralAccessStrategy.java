@@ -17,7 +17,7 @@ public class GeneralAccessStrategy implements TaskAccessStrategy {
 	/**
 	 * 根据操作人id确定所有的组集合
 	 * @param operator 操作人id
-	 * @return List<String> 确定的组集合[如操作人属于多个部门、拥有多个角色]
+	 * @return List 确定的组集合[如操作人属于多个部门、拥有多个角色]
 	 */
 	protected List<String> ensureGroup(String operator) {
 		return null;

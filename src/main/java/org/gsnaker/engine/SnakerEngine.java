@@ -113,14 +113,14 @@ public interface SnakerEngine {
     /**
      * 根据任务主键ID执行任务
      * @param taskId 任务ID
-     * @return List<Task> 任务集合
+     * @return List 任务集合
      */
     public List<Task> executeTask(String taskId);
     /**
      * 根据任务主键ID、操作人ID执行任务
      * @param taskId 任务ID
      * @param operator 操作人ID
-     * @return List<Task> 任务集合
+     * @return List 任务集合
      * @see #executeTask(String, String, Map)
      */
     public List<Task> executeTask(String taskId, String operator);
@@ -129,7 +129,7 @@ public interface SnakerEngine {
      * @param taskId 任务ID
      * @param operator 操作人ID
      * @param args 执行参数
-     * @return List<Task> 任务集合
+     * @return List 任务集合
      */
     public List<Task> executeTask(String taskId, String operator, Map<String, Object> args);
     /**
@@ -140,7 +140,7 @@ public interface SnakerEngine {
      * @param operator 操作人ID
      * @param args 执行参数
      * @param nodeName 节点名称
-     * @return List<Task> 任务集合
+     * @return List 任务集合
      */
     public List<Task> executeAndJumpTask(String taskId, String operator, Map<String, Object> args, String nodeName);
     /**
@@ -149,7 +149,7 @@ public interface SnakerEngine {
      * @param operator 操作人ID
      * @param args 参数列表
      * @param taskModel 节点模型
-     * @return List<Task> 任务集合
+     * @return List 任务集合
      */
     public List<Task> createFreeTask(String orderId, String operator, Map<String, Object> args, TaskModel taskModel);
 }

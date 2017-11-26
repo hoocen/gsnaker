@@ -1,3 +1,4 @@
+drop table if exists wf_process;
 create table wf_process (
   id               VARCHAR(32) primary key not null,
   name             VARCHAR(100),
@@ -11,6 +12,7 @@ create table wf_process (
   creator          VARCHAR(50)
 );
 
+drop table if exists wf_order;
 create table wf_order (
   id               VARCHAR(32) not null primary key,
   process_Id       VARCHAR(32) not null,
@@ -27,6 +29,7 @@ create table wf_order (
   version          integer
 );
 
+drop table if exists wf_task;
 create table wf_task (
   id               VARCHAR(32) not null primary key,
   order_Id         VARCHAR(32) not null,
@@ -44,11 +47,13 @@ create table wf_task (
   version          integer
 );
 
+drop table if exists wf_task_actor;
 create table wf_task_actor (
   task_Id          VARCHAR(32) not null,
   actor_Id         VARCHAR(50) not null
 );
 
+drop table if exists wf_hist_order;
 create table wf_hist_order (
   id               VARCHAR(32) not null primary key,
   process_Id       VARCHAR(32) not null,
@@ -63,6 +68,7 @@ create table wf_hist_order (
   variable         VARCHAR(2000)
 );
 
+drop table if exists wf_hist_task;
 create table wf_hist_task (
   id               VARCHAR(32) not null primary key,
   order_Id         VARCHAR(32) not null,
@@ -80,11 +86,13 @@ create table wf_hist_task (
   variable         VARCHAR(2000)
 );
 
+drop table if exists wf_hist_task_actor;
 create table wf_hist_task_actor (
   task_Id          VARCHAR(32) not null,
   actor_Id         VARCHAR(50) not null
 );
 
+drop table if exists wf_surrogate
 create table wf_surrogate (
   id                VARCHAR(32) not null primary key,
   process_Name      VARCHAR(100),
@@ -96,6 +104,7 @@ create table wf_surrogate (
   state             integer
 );
 
+drop table if exists wf_cc_order;
 create table wf_cc_order (
   order_Id        VARCHAR(32),
   actor_Id        VARCHAR(50),

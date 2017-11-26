@@ -125,7 +125,7 @@ public class StreamHelper {
 	}
 	
 	/**
-	 * input->output字节流copy
+	 * input-&#62;output字节流copy
 	 * @param inputStream
 	 * @param outputStream
 	 * @return
@@ -136,7 +136,7 @@ public class StreamHelper {
 	}
 
 	/**
-	 * input->output字节流copy
+	 * input-&#62;output字节流copy
 	 * @param inputStream
 	 * @param outputStream
 	 * @param bufferSize

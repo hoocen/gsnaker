@@ -130,7 +130,7 @@ public interface ITaskService {
 	 * 根据任务模型、执行对象创建新的任务
 	 * @param taskModel 任务模型
 	 * @param execution 执行对象
-	 * @return List<Task> 创建任务集合
+	 * @return List 创建任务集合
 	 */
 	List<Task> createTask(TaskModel taskModel, Execution execution);
 	
@@ -139,7 +139,7 @@ public interface ITaskService {
 	 * @param taskId 主办任务id
 	 * @param taskType 任务类型
 	 * @param actors 参与者集合
-	 * @return List<Task> 创建任务集合
+	 * @return List 创建任务集合
 	 */
 	List<Task> createNewTask(String taskId, int taskType, String... actors);
 

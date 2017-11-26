@@ -79,7 +79,6 @@ public class ClassHelper {
      * 实例化指定的类名称（全路径）
      * @param clazzStr
      * @return
-     * @throws Exception
      */
     public static Object newInstance(String clazzStr) {
         try {

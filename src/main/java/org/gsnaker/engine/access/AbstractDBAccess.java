@@ -512,7 +512,7 @@ public abstract class AbstractDBAccess implements DBAccess {
 			where.deleteCharAt(where.length() - 1);
 			where.append(") ");
 		}
-		return queryList(CCOrder.class, where.toString(), ArrayUtils.add(actorIds, 0, orderId));
+		return queryList(CCOrder.class, where.toString(),(Object) ArrayUtils.add(actorIds, 0, orderId));
 	}
 
 	public Process getProcess(String id) {
@@ -1031,7 +1031,7 @@ public abstract class AbstractDBAccess implements DBAccess {
         Connection conn = null;
         try {
             conn = getConnection();
-            if(JdbcHelper.isExec(conn)) {
+            if(JdbcHelper.isExec(conn) && !"true".equalsIgnoreCase(ConfigHelper.getProperty("schema.update"))) {
                 log.info("script has completed execution.skip this step");
                 return;
             }

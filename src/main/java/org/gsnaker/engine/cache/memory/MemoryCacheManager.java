@@ -13,7 +13,6 @@ import org.gsnaker.engine.helper.StringHelper;
  * @author hoocen
  * @since 1.0
  */
-@SuppressWarnings("rawtypes")
 public class MemoryCacheManager implements CacheManager {
 
 	private final ConcurrentMap<String, Cache> caches;

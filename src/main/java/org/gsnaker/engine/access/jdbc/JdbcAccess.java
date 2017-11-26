@@ -22,9 +22,7 @@ import org.gsnaker.engine.helper.ClassHelper;
 /**
  * JDBC方式的数据库访问
  * 在无事务控制的情况下，使用cglib的拦截器+ThreadLocale控制
- * @see org.snaker.engine.access.transaction.DataSourceTransactionInterceptor
- * @author yuqs
- * @since 1.0
+ * @see org.gsnaker.engine.access.transaction.DataSourceTransactionInterceptor
  */
 public class JdbcAccess extends AbstractDBAccess implements DBAccess {
 	private static final Logger log = LoggerFactory.getLogger(JdbcAccess.class);

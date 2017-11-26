@@ -16,7 +16,7 @@ import org.gsnaker.engine.SnakerException;
 import org.gsnaker.engine.helper.ClassHelper;
 
 /**
- * 该类主要解决数据库字段与类属性之间的转换存在下划线的情况(如：taskId->task_id)
+ * 该类主要解决数据库字段与类属性之间的转换存在下划线的情况(如：taskId-&#62;task_id)
  * 该类主要参考Spring JDBC的rowmapper方式
  * dbutils使用BeanHandler、BeanListHandler来处理返回集与bean的转换
  * 这里统一使用BeanPropertyHandler，当返回单条记录时，使用JdbcHelper的requiredSingleResult做处理

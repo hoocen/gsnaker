@@ -281,7 +281,7 @@ public class TaskService extends AccessService implements ITaskService{
 	 * 由DBAccess实现类创建task，并根据model类型决定是否分配参与者
 	 * @param taskModel 模型
 	 * @param execution 执行对象
-	 * @return List<Task> 任务列表
+	 * @return List 任务列表
 	 */
 	public List<Task> createTask(TaskModel taskModel, Execution execution) {
 		List<Task> tasks = new ArrayList<Task>();

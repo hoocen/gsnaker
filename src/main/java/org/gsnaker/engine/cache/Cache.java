@@ -17,9 +17,9 @@ public interface Cache<K, V> {
 
 	/**
 	 * 添加缓存键值对
-	 * @param key
-	 * @param value
-	 * @return
+	 * @param key 键
+	 * @param value 值
+	 * @return V 值
 	 * @throws CacheException
 	 */
     public V put(K key, V value) throws CacheException;

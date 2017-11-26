@@ -79,7 +79,7 @@ public class ProcessModel  extends BaseModel{
 	}
 	/**
      * 获取所有的有序任务模型集合
-     * @return List<TaskModel> 任务模型集合
+     * @return List 任务模型集合
      */
     public List<TaskModel> getTaskModels() {
         if(taskModels.isEmpty()) {

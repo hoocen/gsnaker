@@ -2,28 +2,28 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/gsnaker" xmlns:tns="http://www.example.org/gsnaker" elementFormDefault="qualified">
 	<xs:element name="process">
 		<xs:complexType>
-			<xs:sequence>
+			<xs:choice>
 				<xs:element name="start">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="transition">
+						<xs:choice>
+							<xs:element name="transition" maxOccurs="unbounded">
 								<xs:complexType>
-									<xs:attribute name="to" type="xs:tring" use="required"></xs:attribute>
+									<xs:attribute name="to" type="xs:string" use="required"></xs:attribute>
 									<xs:attribute name="name" type="xs:string"></xs:attribute>
 									<xs:attribute name="go" type="xs:string"></xs:attribute>
 									<xs:attribute name="offset" type="xs:string"></xs:attribute>
 								</xs:complexType>
 							</xs:element>
-						</xs:sequence>
+						</xs:choice>
 						<xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
 						<xs:attribute name="displayName" type="xs:string"></xs:attribute>
 						<xs:attribute name="layout" type="xs:string"></xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="task">
+				<xs:element name="task" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="transition">
+							<xs:element name="transition" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:attribute name="to" type="xs:string" use="required"></xs:attribute>
 									<xs:attribute name="name" type="xs:string"></xs:attribute>
@@ -39,6 +39,24 @@
 						<xs:attribute name="layout" type="xs:string"></xs:attribute>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="decision" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="transition" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="to" type="xs:string" use="required"></xs:attribute>
+									<xs:attribute name="expr" type="xs:string"></xs:attribute>
+									<xs:attribute name="name" type="xs:string"></xs:attribute>
+									<xs:attribute name="go" type="xs:string"></xs:attribute>
+									<xs:attribute name="offset" type="xs:string"></xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
+						<xs:attribute name="expr" type="xs:string"></xs:attribute>
+						<xs:attribute name="displayName" type="xs:string"></xs:attribute>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="end">
 					<xs:complexType>
 						<xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
@@ -46,7 +64,7 @@
 						<xs:attribute name="layout" type="xs:string"></xs:attribute>
 					</xs:complexType>
 				</xs:element>
-			</xs:sequence>
+			</xs:choice>
 			<xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
 			<xs:attribute name="displayName" type="xs:string"></xs:attribute>
 			<xs:attribute name="version" type="xs:integer"></xs:attribute>

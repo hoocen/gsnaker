@@ -1,22 +1,20 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 defaultTasks 'clean', 'build'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-group = 'com.gsnaker'
-version = '0.5.4-SNAPSHOT'
+group = 'io.github.hoocen'
+version = '1.0.0'
 def artifactId = 'gsnaker'
 
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
-ext {
-	publishSnapshots = true
-	publishReleases = false
-	sonatypeUsername = ''
-	sonatypePassword = ''
+tasks.withType(Javadoc) {
+	options.encoding = 'UTF-8'
 }
 
 repositories {
@@ -32,9 +30,7 @@ repositories {
 }
 
 dependencies {
-	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
-	compile group: 'ch.qos.logback', name: 'logback-access', version: '1.1.7'
-	compile group: 'org.logback-extensions', name: 'logback-ext-spring', version: '0.1.4'
+	
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
 	compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
 	compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
@@ -44,6 +40,10 @@ dependencies {
 	compile group: 'javax.transaction', name: 'jta', version: '1.1'
 	compile group: 'commons-dbutils', name: 'commons-dbutils', version: '1.7'
 	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+	
+	compileOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
+	compileOnly group: 'ch.qos.logback', name: 'logback-access', version: '1.1.7'
+	compileOnly group: 'org.logback-extensions', name: 'logback-ext-spring', version: '0.1.4'
 	
 	testCompile group: 'com.h2database', name: 'h2', version: '1.4.196'
 	testCompile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
@@ -64,8 +64,57 @@ task sourcesJar(type: Jar) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
 }
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
 artifacts {
 	archives jar
+	archives javadocJar
 	archives sourcesJar
 }
 
+signing {
+	sign configurations.archives
+}
+
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			//为Pom文件做数字签名
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+  
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: sonatype_name, password: sonatype_password)
+			}
+			pom.project {
+				name project.name
+				packaging 'jar'
+				description 'A Light-weight workflow.'
+				url 'https://github.com/hoocen/gsnaker'
+  
+				scm {
+					url 'https://github.com/hoocen/gsnaker.git'
+					connection 'https://github.com/hoocen/gsnaker.git'
+					developerConnection 'https://github.com/hoocen/gsnaker.git'
+				}
+  
+				licenses {
+					license {
+						name 'The Apache Software License, Version 2.0'
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+					}
+				}
+  
+				developers {
+					developer {
+						name 'hoocen'
+						url 'https://github.com/hoocen/gsnaker'
+					}
+				}
+			}
+		}
+	}
+}

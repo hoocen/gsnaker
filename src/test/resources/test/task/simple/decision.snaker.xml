@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process  xmlns="http://www.example.org/gsnaker"  
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xsi:noNamespaceSchemaLocation="gsnaker.xsd"
+      displayName="简单表达式流程" name="expression">
+      <start name="start1">
+      	<transition name="ts1" to="task1"/>
+      </start>
+      <task name="task1" displayName="审批">
+      	<transition name="ts2" to="decision1"/>
+      </task>
+      <decision name="decision1" displayName="审批结果">
+      	<transition name="ts3" displayName="通过" expr="${result}" to="end1"/>
+      	<transition name="ts4" displayName="驳回" expr="${!result}" to="task2"/>
+      </decision>
+      <task name="task2" displayName="修正">
+      	<transition name="ts5" to="decision2"/>
+      </task>
+      <decision name="decision2" expr="${result}" displayName="审批结果">
+      	<transition name="true" displayName="修改"  to="task1"/>
+      	<transition name="false" displayName="取消" to="end1"/>
+      </decision>
+      <end name="end1"/>
+</process>

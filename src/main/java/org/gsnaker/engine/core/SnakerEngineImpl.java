@@ -329,7 +329,7 @@ public class SnakerEngineImpl implements SnakerEngine {
 			}
 		}
 		Process process = process().getProcessById(order.getProcessId());
-		Execution current = new Execution(this, process, order, orderMaps);
+		Execution current = new Execution(this, process, order, args);
 		current.setOperator(operator);
 		current.setTask(task);
 		return current;

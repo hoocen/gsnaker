@@ -24,7 +24,7 @@ import org.junit.Test;
  * @author hoocen
  * @since 1.1
  */
-public class SimpleProcessTest extends TestSnakerBase{
+public class SimpleProcessTest extends TestSnakerBase {
 
 	private String orderId;
 	
@@ -64,7 +64,6 @@ public class SimpleProcessTest extends TestSnakerBase{
 	 */
 	private void testTask() {
 		List<Task> tasks = engine.query().getActiveTasks(new QueryFilter().setOrderId(orderId));
-		
 		
 		ITaskService taskService = engine.task();
 		for(Task task : tasks) {

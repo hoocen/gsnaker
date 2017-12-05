@@ -29,8 +29,8 @@ public class ClassHelper {
     private static final Logger log = LoggerFactory.getLogger(ClassHelper.class);
 	/**
 	 * 查询结果总记录数的类型转换
-	 * @param count
-	 * @return
+	 * @param count 待转换数据
+	 * @return 转换后的long型，count为null或非数字类型时返回-1
 	 */
 	public static long castLong(Object count) {
 		if(count == null) return -1L;
@@ -52,10 +52,14 @@ public class ClassHelper {
 	}
     
     /**
-     * 根据指定的类名称加载类
-     * @param className
-     * @return
-     * @throws ClassNotFoundException
+     * 根据指定的类名称加载类.
+     * 类加载路径：
+     * 1.上下文类加载器加载，绕过“双亲委派”机制
+     * 2.当前类加载器加载，并初始化类
+     * 3.当前类加载器加载，不初始化类
+     * @param className 类名
+     * @return The resulting Class object
+     * @throws ClassNotFoundException If the class was not found
      */
     public static Class<?> loadClass(String className) throws ClassNotFoundException {
         try {
@@ -77,8 +81,8 @@ public class ClassHelper {
     
     /**
      * 实例化指定的类名称（全路径）
-     * @param clazzStr
-     * @return
+     * @param clazzStr 类全路径名称
+     * @return 实例化后的对象
      */
     public static Object newInstance(String clazzStr) {
         try {
@@ -95,8 +99,8 @@ public class ClassHelper {
     
     /**
      * 根据类的class实例化对象
-     * @param clazz
-     * @return
+     * @param clazz 待实例化类
+     * @return 实例化对象
      */
 	public static <T> T instantiate(Class<T> clazz) {
 		if (clazz.isInterface()) {

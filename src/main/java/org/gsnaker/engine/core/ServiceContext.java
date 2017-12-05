@@ -11,7 +11,7 @@ import org.gsnaker.engine.helper.AssertHelper;
  * 单实例的服务上下文
  * 具体的服务上下文查找交给Context的具体实现类
  * @author hoocen
- * @since
+ * @since 1.0
  */
 public abstract class ServiceContext {
 
@@ -27,7 +27,7 @@ public abstract class ServiceContext {
 	
 	/**
 	 * 获取Context实现类
-	 * @return
+	 * @return 服务查找接口
 	 */
 	public static Context getContext() {
 		return context;
@@ -43,7 +43,7 @@ public abstract class ServiceContext {
 	
 	/**
 	 * 获取注册的引擎实例
-	 * @return
+	 * @return 流程引擎实例
 	 */
 	public static SnakerEngine getEngine() {
 		AssertHelper.notNull(context, "未注册服务上下文");
@@ -82,7 +82,7 @@ public abstract class ServiceContext {
 	/**
 	 * 根据服务名称判断是否存在服务实例
 	 * @param name 服务名称
-	 * @return
+	 * @return 是否存在服务对象
 	 */
 	public static boolean exist(String name) {
 		AssertHelper.notNull(context, "未注册服务上下文");
@@ -92,7 +92,7 @@ public abstract class ServiceContext {
 	/**
 	 * 对外部提供的查找对象方法，根据class类型查找
 	 * @param clazz 服务类型
-	 * @return
+	 * @return 服务对象
 	 */
 	public static <T> T find(Class<T> clazz) {
 		AssertHelper.notNull(context, "未注册服务上下文");
@@ -102,7 +102,7 @@ public abstract class ServiceContext {
 	/**
 	 * 对外部提供的查找对象实例列表方法，根据class类型查找集合
 	 * @param clazz 服务类型
-	 * @return
+	 * @return 服务对象列表
 	 */
 	public static <T> List<T> findList(Class<T> clazz) {
 		AssertHelper.notNull(context, "未注册服务上下文");
@@ -113,7 +113,7 @@ public abstract class ServiceContext {
 	 * 对外部提供的查找对象方法，根据名称、class类型查找
 	 * @param name 服务名称
 	 * @param clazz 服务类型
-	 * @return
+	 * @return T 返回服务对象
 	 */
 	public static <T> T findByName(String name, Class<T> clazz) {
 		AssertHelper.notNull(context, "未注册服务上下文");

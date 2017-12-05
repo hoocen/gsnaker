@@ -7,7 +7,7 @@ defaultTasks 'clean', 'build'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 group = 'io.github.hoocen'
-version = '1.0.0'
+version = '1.1.1'
 def artifactId = 'gsnaker'
 
 tasks.withType(JavaCompile) {
@@ -112,6 +112,7 @@ uploadArchives {
 					developer {
 						name 'hoocen'
 						url 'https://github.com/hoocen/gsnaker'
+						email 'zhanghongchun@shougang.com.cn'
 					}
 				}
 			}

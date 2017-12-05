@@ -15,16 +15,19 @@ public class DateHelper {
 	
 	/**
 	 * 返回标准格式的当前时间
-	 * @return
+	 * @return 格式化（yyyy-MM-dd HH:mm:ss）后的当前日期字符串
 	 */
 	public static String getTime() {
 		return new DateTime().toString(DATE_FORMAT_DEFAULT);
 	}
 	
 	/**
-	 * 解析日期时间对象
-	 * @param date
-	 * @return
+	 * 解析日期时间对象.
+	 * 如果传入的对象是日期类型，返回格式化后的日期字符串；
+	 * 如果传入的对象是字符串格式，返回该字符串；
+	 * 否则，返回空字符串
+	 * @param date 日期对象
+	 * @return 日期字符传
 	 */
 	public static String parseTime(Object date) {
 		if(date == null) return null;

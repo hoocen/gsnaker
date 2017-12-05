@@ -40,6 +40,10 @@ public class ProcessModel  extends BaseModel{
 	 * 实例编号生成器对象
 	 */
 	private INoGenerator generator;
+	/**
+	 * 流程版本
+	 */
+	private Integer version;
     /**
      * lock
      */
@@ -164,4 +168,13 @@ public class ProcessModel  extends BaseModel{
 	public void setGenerator(INoGenerator generator) {
 		this.generator = generator;
 	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	
 }

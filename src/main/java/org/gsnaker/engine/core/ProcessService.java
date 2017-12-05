@@ -213,14 +213,9 @@ public class ProcessService extends AccessService implements IProcessService{
 		try {
 			byte[] bytes = StreamHelper.readBytes(input);
 			ProcessModel model = ModelParser.parse(bytes);
-			Integer version = access().getLatestProcessVersion(model.getName());
 			Process entity = new Process();
 			entity.setId(StringHelper.getPrimaryKey());
-			if(version == null || version < 0) {
-				entity.setVersion(0);
-			} else {
-				entity.setVersion(version + 1);
-			}
+			entity.setVersion(model.getVersion());
 			entity.setState(STATE_ACTIVE);
 			entity.setModel(model);
 			entity.setBytes(bytes);

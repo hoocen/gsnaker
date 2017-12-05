@@ -36,7 +36,7 @@ public class Configuration {
 	private static final Logger log = LoggerFactory.getLogger(Configuration.class);
 	private static final String BASE_CONFIG_FILE = "base.config.xml";
 	private final static String EXT_CONFIG_FILE = "ext.config.xml";
-	private final static String USER_CONFIG_FILE = "snaker.xml";
+	private final static String USER_CONFIG_FILE = "gsnaker.xml";
 	/**
 	 * 访问数据库的对象，更加使用的orm进行设置。如果未提供此项设置，则按照默认orm加载方式初始化
 	 */

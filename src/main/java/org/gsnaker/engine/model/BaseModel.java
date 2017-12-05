@@ -23,8 +23,8 @@ public class BaseModel implements Serializable{
 	private String displayName;
 	/**
 	 * 将流程对象execution交给具体的处理器处理
-	 * @param handler
-	 * @param execution
+	 * @param handler 执行器
+	 * @param execution 执行对象
 	 */
 	protected void fire(IHandler handler, Execution execution){
 		handler.handle(execution);

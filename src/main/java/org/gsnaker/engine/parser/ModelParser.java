@@ -43,6 +43,13 @@ public class ModelParser {
 			process.setExpireTime(processE.getAttribute(NodeParser.ATTR_EXPIRETIME));
 			process.setInstanceUrl(processE.getAttribute(NodeParser.ATTR_INSTANCEURL));
 			process.setInstanceNoClass(processE.getAttribute(NodeParser.ATTR_INSTANCENOCLASS));
+			String version = processE.getAttribute(NodeParser.ATTR_VERSION);
+			if(version == null || "".equals(version)) {
+				process.setVersion(0);
+			}else {
+				process.setVersion(Integer.parseInt(version));
+			}
+			
 			NodeList nodeList = processE.getChildNodes();
 			int nodeSize = nodeList.getLength();
 			for(int i = 0; i < nodeSize; i++) {
